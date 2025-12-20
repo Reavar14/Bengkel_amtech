@@ -1,0 +1,9 @@
+.hero{
+  background-image: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url('https://images.unsplash.com/photo-1502877338535-766e1452684a?q=80&w=1600&auto=format&fit=crop&ixlib=rb-4.0.3&s=0');
+  background-size:cover;
+  background-position:center;
+  height:60vh;
+  display:block;
+  padding-top:6rem;
+}
+.card-img-top{height:180px;object-fit:cover;}
