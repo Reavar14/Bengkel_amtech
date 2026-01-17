@@ -10,19 +10,17 @@ use App\Models\User;
 class AuthController extends Controller
 {
     /**
-     * REGISTER PROCESS
+     * REGISTER (USER ONLY)
      */
     public function register(Request $request)
     {
-        // Validasi register
         $validated = $request->validate([
-            'name'      => 'required|string|max:100',
-            'email'     => 'required|email|unique:users,email',
-            'phone'     => 'required|string|max:20',
-            'password'  => 'required|min:6|confirmed',
+            'name'     => 'required|string|max:100',
+            'email'    => 'required|email|unique:users,email',
+            'phone'    => 'required|string|max:20',
+            'password' => 'required|min:6|confirmed',
         ]);
 
-        // Simpan user baru
         $user = User::create([
             'name'     => $validated['name'],
             'email'    => $validated['email'],
@@ -30,17 +28,16 @@ class AuthController extends Controller
             'password' => Hash::make($validated['password']),
         ]);
 
-        // Role default user
+        // DEFAULT ROLE
         $user->assignRole('user');
 
-        // Tidak auto login → agar user login manual
         return redirect()
             ->route('login')
-            ->with('success', 'Registrasi berhasil! Silakan login.');
+            ->with('success', 'Registrasi berhasil. Silakan login.');
     }
 
     /**
-     * LOGIN PROCESS
+     * LOGIN (KHUSUS USER)
      */
     public function login(Request $request)
     {
@@ -55,23 +52,23 @@ class AuthController extends Controller
             ]);
         }
 
-        $user = Auth::user();
+        $request->session()->regenerate();
 
-        // Redirect berdasarkan role
-        if ($user->hasRole('admin')) {
-            return redirect()->route('filament.admin.pages.dashboard');
+        // ❌ ADMIN DILARANG LOGIN DARI LOGIN USER
+        if (auth()->user()->hasRole('admin')) {
+            Auth::logout();
+
+            return back()->withErrors([
+                'email' => 'Admin harus login melalui halaman admin.',
+            ]);
         }
 
-        if ($user->hasRole('user')) {
-            return redirect()->route('index')->with('success', 'Login berhasil!');
-        }
-
-        // Default fallback
+        // ✅ USER MASUK DASHBOARD USER
         return redirect()->route('index');
     }
 
     /**
-     * LOGOUT PROCESS
+     * LOGOUT
      */
     public function logout(Request $request)
     {
@@ -84,17 +81,15 @@ class AuthController extends Controller
     }
 
     /**
-     * SHOW EDIT PROFILE PAGE
+     * USER PROFILE
      */
     public function editProfile()
     {
-        $user = auth()->user(); 
-        return view('frontend.user-profile', compact('user'));
+        return view('frontend.user-profile', [
+            'user' => auth()->user(),
+        ]);
     }
 
-    /**
-     * UPDATE PROFILE PROCESS
-     */
     public function updateProfile(Request $request)
     {
         $user = auth()->user();
@@ -106,17 +101,14 @@ class AuthController extends Controller
             'password' => 'nullable|min:6|confirmed',
         ]);
 
-        // Update field dasar
-        $user->name  = $validated['name'];
-        $user->email = $validated['email'];
-        $user->phone = $validated['phone'];
-
-        // Update password jika diisi
-        if (!empty($validated['password'])) {
-            $user->password = Hash::make($validated['password']);
-        }
-
-        $user->save();
+        $user->update([
+            'name'     => $validated['name'],
+            'email'    => $validated['email'],
+            'phone'    => $validated['phone'],
+            'password' => !empty($validated['password'])
+                ? Hash::make($validated['password'])
+                : $user->password,
+        ]);
 
         return back()->with('success', 'Profil berhasil diperbarui.');
     }

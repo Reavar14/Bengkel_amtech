@@ -7,7 +7,12 @@
     <title>@yield('title') - Anugrah Manual Tech</title>
 
     {{-- Favicon --}}
-    <link rel="icon" type="image/png" href="{{ asset('frontend/images/logo.png') }}">
+    <link rel="icon" type="image/png" href="{{ asset('frontend/images/logokecil1.png') }}">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     {{-- Bootstrap --}}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -25,11 +30,12 @@
 
             {{-- LOGO + BRAND --}}
             <a class="navbar-brand d-flex align-items-center" href="{{ route('index') }}">
-                <img src="{{ asset('frontend/images/logo.png') }}" 
-                     alt="Logo"
-                     width="32" height="32"
-                     class="me-2">
-                Anugrah Manual Tech
+                <img
+                    src="{{ asset('frontend/images/logokecil1.png') }}"
+                    alt="Logo"
+                    class="logo-navbar me-2"
+                >
+                <span class="brand-text">Anugrah Manual Tech</span>
             </a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain3">

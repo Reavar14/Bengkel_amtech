@@ -27,7 +27,7 @@
                     <th>Kode</th>
                     <th>Waktu & Nama</th>
                     <th>Mekanik</th>
-                    <th>Estimasi</th>
+                    <th>Estimasi (menit)</th>
                     <th>Status</th>
                     <th>Keluhan</th>
                     <th style="width: 120px;">Aksi</th>
@@ -37,70 +37,56 @@
             <tbody>
             @foreach($bookings as $index => $booking)
                 <tr>
-                    {{-- No --}}
-                    <td>{{ $index + 1 }}</td>
-
-                    {{-- Booking Code --}}
+                    {{-- No (lanjut antar halaman) --}}
                     <td>
-                        <span class="badge bg-dark">{{ $booking->booking_code }}</span>
+                        {{ ($bookings->currentPage() - 1) * $bookings->perPage() + $index + 1 }}
                     </td>
 
-                    {{-- Waktu + nama --}}
+                    <td>
+                        <span class="badge bg-dark">
+                            {{ $booking->booking_code ?? '-' }}
+                        </span>
+                    </td>
+
                     <td>
                         <strong>
-                            {{ \Carbon\Carbon::parse($booking->date)->format('d M Y') }}
-                            {{ substr($booking->time, 0, 5) }}
-                        </strong>
-                        <br>
+                            {{ \Carbon\Carbon::parse($booking->date)->format('d M Y') }}<br>
+                            {{ $booking->time }}
+                        </strong><br>
                         {{ $booking->name }}
                     </td>
 
-                    {{-- Mekanik --}}
-                    <td>
-                        {{ $booking->mechanic?->name ?? '-' }}
-                    </td>
+                    <td>{{ $booking->mechanic?->name ?? '-' }}</td>
+                    <td>{{ $booking->estimation ?? '-' }}</td>
 
-                    {{-- Estimasi --}}
-                    <td>
-                        {{ $booking->estimation ?? '-' }}
-                    </td>
-
-                    {{-- Status --}}
                     <td>
                         @switch($booking->status)
-                            @case('pending')
+                            @case('menunggu')
                                 <span class="badge bg-warning text-dark">Menunggu</span>
-                            @break
-
+                                @break
                             @case('proses')
                                 <span class="badge bg-info text-dark">Diproses</span>
-                            @break
-
+                                @break
                             @case('selesai')
-                                <span class="badge bg-success text-white">Selesai</span>
-                            @break
-
+                                <span class="badge bg-success">Selesai</span>
+                                @break
                             @case('dibatalkan')
-                                <span class="badge bg-danger text-white">Dibatalkan</span>
-                            @break
-
+                                <span class="badge bg-danger">Dibatalkan</span>
+                                @break
                             @default
                                 <span class="badge bg-secondary">-</span>
                         @endswitch
                     </td>
 
-                    {{-- Keluhan --}}
                     <td>{{ $booking->notes ?? '-' }}</td>
 
-                    {{-- Aksi --}}
                     <td>
-                        @if($booking->status == 'pending')
+                        @if($booking->status === 'menunggu')
                             <form action="{{ route('booking.cancel', $booking->id) }}"
-                                method="POST"
-                                onsubmit="return confirm('Yakin ingin membatalkan booking ini?')">
+                                  method="POST"
+                                  onsubmit="return confirm('Yakin ingin membatalkan booking ini?')">
                                 @csrf
                                 @method('DELETE')
-
                                 <button class="btn btn-danger btn-sm w-100">
                                     Batalkan
                                 </button>
@@ -112,8 +98,12 @@
                 </tr>
             @endforeach
             </tbody>
-
         </table>
+    </div>
+
+    {{-- PAGINATION --}}
+    <div class="mt-4 d-flex justify-content-center">
+        {{ $bookings->links('pagination::bootstrap-5') }}
     </div>
 
     @endif

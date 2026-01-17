@@ -11,7 +11,7 @@ class BookingCreatedMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $booking;
+    public Booking $booking;
 
     public function __construct(Booking $booking)
     {
@@ -20,7 +20,7 @@ class BookingCreatedMail extends Mailable
 
     public function build()
     {
-        return $this->subject('Booking Berhasil Dibuat')
-                    ->view('emails.booking-created');
+        return $this->subject('Konfirmasi Booking Servis')
+            ->view('emails.booking-created');
     }
 }

@@ -9,10 +9,10 @@ class RoleUser
 {
     public function handle(Request $request, Closure $next)
     {
-        if (auth()->check() && auth()->user()->role === 'user') {
-            return $next($request);
+        if (!auth()->check() || !auth()->user()->hasRole('user')) {
+            abort(403, 'Only user can access this page.');
         }
 
-        abort(403, 'Only user can access this page.');
+        return $next($request);
     }
 }

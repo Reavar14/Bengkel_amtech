@@ -1,9 +1,106 @@
 .hero{
-  background-image: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url('https://images.unsplash.com/photo-1502877338535-766e1452684a?q=80&w=1600&auto=format&fit=crop&ixlib=rb-4.0.3&s=0');
+  background-image: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url('/frontend/images/bengkelam.png');
   background-size:cover;
-  background-position:center;
-  height:60vh;
-  display:block;
+  background-position:center left;
+  height:65vh;
+  display: flex;
+  align-items: center;
   padding-top:6rem;
+  backdrop-filter: blur(2px);
 }
 .card-img-top{height:180px;object-fit:cover;}
+
+.card {
+    border: none;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+}
+
+.about-logo {
+    max-width: 320px;
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.about-logo:hover {
+    transform: scale(1.05);
+}
+
+/* LOGO NAVBAR */
+.logo-navbar {
+    height: 56px;     /* BESAR & JELAS */
+    width: auto;
+}
+
+/* TEXT BRAND */
+.brand-text {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 20px;
+    color: #ffffff;
+    white-space: nowrap;
+}
+
+.navbar {
+    font-family: 'Poppins', sans-serif;
+}
+
+.navbar-nav .nav-link {
+    font-weight: 500;
+    font-size: 0.90rem;
+    letter-spacing: 0.3px;
+}
+
+.navbar-brand {
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.navbar .dropdown-toggle {
+    font-weight: 500;
+}
+
+/* ==============================
+   BUTTON PRIMARY - BIRU DONGKER
+   ============================== */
+.btn-primary {
+    background-color: #0a2540;
+    border-color: #0a2540;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+    background-color: #123a63;
+    border-color: #123a63;
+}
+
+/* ==============================
+   BUTTON OUTLINE PRIMARY
+   ============================== */
+.btn-outline-primary {
+    color: #0a2540;
+    border-color: #0a2540;
+}
+
+.btn-outline-primary:hover {
+    background-color: #0a2540;
+    color: #ffffff;
+}
+
+/* Desktop lebih besar */
+@media (min-width: 992px) {
+    .logo-navbar {
+        height: 35px;
+    }
+
+    .brand-text {
+        font-size: 22px;
+    }
+}

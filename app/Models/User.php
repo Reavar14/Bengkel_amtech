@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
+use Filament\Panel;
 
 class User extends Authenticatable
 {
@@ -27,17 +28,11 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
-            'password' => 'hashed',
+            // ❌ JANGAN pakai 'password' => 'hashed'
         ];
     }
 
-    public function bookings()
-    {
-        return $this->hasMany(Booking::class);
-    }
-
-    /** FILAMENT ACCESS CONTROL **/
-    public function canAccessPanel(\Filament\Panel $panel): bool
+    public function canAccessPanel(Panel $panel): bool
     {
         return $this->hasRole('admin');
     }

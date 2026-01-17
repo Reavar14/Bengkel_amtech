@@ -7,7 +7,9 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "barryvdh/laravel-dompdf": "^3.1",
         "blade-ui-kit/blade-heroicons": "*",
+        "doctrine/dbal": "^4.4",
         "filament/filament": "^4.3",
         "filament/tables": "4.3.1",
         "laravel/framework": "^12.0",

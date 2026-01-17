@@ -46,8 +46,6 @@ class MechanicResource extends Resource
                     ->label('Dibuat')
                     ->dateTime(),
             ])
-
-            // ✅ INI SATU-SATUNYA CARA BENAR DI FILAMENT v4
             ->recordActions([
                 EditAction::make()->iconButton(),
                 DeleteAction::make()->iconButton(),
@@ -64,24 +62,24 @@ class MechanicResource extends Resource
         ];
     }
 
-    /* ================= AUTH ================= */
+    /* ================= AUTH (FINAL BENAR) ================= */
     public static function canViewAny(): bool
     {
-        return auth()->user()?->role === 'admin';
+        return auth()->check() && auth()->user()->hasRole('admin');
     }
 
     public static function canCreate(): bool
     {
-        return auth()->user()?->role === 'admin';
+        return auth()->check() && auth()->user()->hasRole('admin');
     }
 
     public static function canEdit(Model $record): bool
     {
-        return auth()->user()?->role === 'admin';
+        return auth()->check() && auth()->user()->hasRole('admin');
     }
 
     public static function canDelete(Model $record): bool
     {
-        return auth()->user()?->role === 'admin';
+        return auth()->check() && auth()->user()->hasRole('admin');
     }
 }
