@@ -6,12 +6,13 @@ RUN apt-get update && apt-get install -y \
     libjpeg-dev \
     libfreetype6-dev \
     libicu-dev \
+    libzip-dev \
     zip \
     unzip \
     git \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-configure intl \
-    && docker-php-ext-install pdo_mysql gd intl
+    && docker-php-ext-install pdo_mysql gd intl zip
 
 # 2. Aktifkan mod_rewrite Apache agar routing web.php Laravel berfungsi
 RUN a2enmod rewrite
