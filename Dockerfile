@@ -1,6 +1,6 @@
 FROM php:8.2-cli
 
-# 1. Instal dependensi sistem, ekstensi PHP, DAN Node.js + NPM
+# 1. Instal dependensi sistem, ekstensi PHP, DAN Node.js + NPM (Sudah bersih dari typo)
 RUN apt-get update && apt-get install -y \
     libpng-dev \
     libjpeg-dev \
@@ -12,7 +12,7 @@ RUN apt-get update && apt-get install -y \
     git \
     curl \
     && curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
-    && apt-get install -y Against nodejs \
+    && apt-get install -y nodejs \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-configure intl \
     && docker-php-ext-install pdo_mysql gd intl zip
@@ -23,11 +23,11 @@ WORKDIR /var/www/html
 # 3. Salin seluruh file proyek
 COPY . .
 
-# 4. Ambil Composer dan instal paket PHP
+# 4. Ambil Composer resmi dan instal paket PHP
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 RUN composer install --no-dev --optimize-autoloader
 
-# 5. INSTAL DEPENDENSI NPM & BUILD CSS (Ini kuncinya!)
+# 5. Instal dependensi NPM dan compile aset Tailwind/Vite langsung di server
 RUN npm install
 RUN npm run build
 
