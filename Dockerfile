@@ -37,3 +37,6 @@ RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cac
 
 # 8. Buka port 80 untuk akses web
 EXPOSE 80
+
+# 9. Paksa Apache berjalan di foreground agar kontainer tidak otomatis 'exited'
+CMD ["apache2-foreground"]
