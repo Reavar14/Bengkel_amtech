@@ -1,15 +1,17 @@
 FROM php:8.2-apache
 
-# 1. Instal dependensi sistem dan ekstensi PHP yang dibutuhkan Laravel
+# 1. Instal dependensi sistem dan ekstensi PHP yang dibutuhkan Laravel & Filament
 RUN apt-get update && apt-get install -y \
     libpng-dev \
     libjpeg-dev \
     libfreetype6-dev \
+    libicu-dev \
     zip \
     unzip \
     git \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install pdo_mysql gd
+    && docker-php-ext-configure intl \
+    && docker-php-ext-install pdo_mysql gd intl
 
 # 2. Aktifkan mod_rewrite Apache agar routing web.php Laravel berfungsi
 RUN a2enmod rewrite
